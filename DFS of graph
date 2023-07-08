@@ -1,0 +1,18 @@
+  public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+      int n=adj.size();
+       ArrayList<Integer> ans=new ArrayList<>();
+       int[] vis=new int[V];
+       dfs(ans,vis,0,adj);
+       return ans;
+    }
+    
+    private void dfs(ArrayList<Integer> ans,int[] vis,int node,ArrayList<ArrayList<Integer>> adj ){
+        vis[node]=1;
+        ans.add(node);
+        
+        for(Integer it : adj.get(node)){
+            if(vis[it]==0)
+            dfs(ans,vis,it,adj);
+        }
+        return ;
+    }
