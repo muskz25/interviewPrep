@@ -1,0 +1,66 @@
+class Solution {
+    public class pair{
+        int row;
+        int col;
+
+        pair(int row,int col){
+            this.row=row;
+            this.col=col;
+        }
+    }
+    public int shortestBridge(int[][] grid) {
+        int n=grid.length;
+        boolean found = false;
+        boolean vis[][] = new boolean[n][n];
+        int[][] directions = {{-1,0},{0,-1},{1,0},{0,1}};
+        LinkedList<pair> q = new LinkedList<>();
+       for(int i=0;i<n;i++){
+           if (found) { break; }
+           for(int j=0;j<n;j++){
+               if(grid[i][j]==1){
+                   dfs(i,j,grid,n,vis,q);
+                   found = true;
+                    break;
+               }
+           }
+       }
+
+       int level=0;
+       while(!q.isEmpty()){
+           int size=q.size();
+           for(int i=0;i<size;i++){
+               int currRow = q.peek().row;
+                int currCol = q.peek().col;
+                q.remove();
+
+                for(int [] dir : directions){
+                    int newRow = currRow + dir[0];
+                    int newCol = currCol + dir[1];
+        if (newRow >= 0 && newRow < n && newCol >= 0 && newCol < n && !vis[newRow][newCol]) {
+                    if (grid[newRow][newCol] == 1) {
+                            return level;
+                        }
+                    q.add(new pair(newRow,newCol));
+                     vis[newRow][newCol]=true;
+                }
+           }
+
+       } 
+       level++;
+    }
+    return -1;
+    }
+
+    public void dfs(int i,int j,int[][] grid,int n,boolean vis[][],LinkedList<pair> q ){
+        if(i<0 || i>=n || j<0 || j>=n || grid[i][j]==0 || vis[i][j]){
+            return;
+        }
+        vis[i][j]=true;
+        q.add(new pair(i,j));
+            dfs(i+1,j,grid,n,vis,q);
+             dfs(i-1,j,grid,n,vis,q);
+              dfs(i,j-1,grid,n,vis,q);
+               dfs(i,j+1,grid,n,vis,q);
+        
+    }
+}
