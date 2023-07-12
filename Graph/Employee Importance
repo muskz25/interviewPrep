@@ -1,0 +1,19 @@
+class Solution {
+    public int getImportance(List<Employee> employees, int id) {
+        
+       Map<Integer, Employee> map = new HashMap<>();
+       for(Employee employee : employees)
+           map.put(employee.id, employee);
+        
+        return dfs(id, map);
+    }
+    
+    private int dfs(int id, Map<Integer, Employee> map){
+        int res = map.get(id).importance;
+        
+        for(int newId : map.get(id).subordinates)
+            res = res + dfs(newId, map);
+        
+        return res;
+    }
+}
