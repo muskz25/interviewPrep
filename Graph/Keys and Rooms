@@ -1,0 +1,50 @@
+//dfs - class Solution {
+
+    public void solve(List<List<Integer>> rooms,Set<Integer> set,int i){   
+            for(int item : rooms.get(i)){
+                if(set.contains(item))continue;
+                    set.add(item);
+                solve(rooms,set,item);
+                
+            }
+    }
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        Set<Integer> set=new HashSet<>();
+            int n=rooms.size(); 
+             set.add(0);
+            solve(rooms,set,0);
+            return n==set.size();
+    }
+}
+
+----------------
+//bfs
+
+class Solution {
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        Queue<Integer> queue = new LinkedList<Integer>();
+        boolean[] visited = new boolean[rooms.size()];
+
+        visited[0] = true;
+        for(int i: rooms.get(0)) {
+            queue.add(i);
+            visited[i] = true;
+        }
+
+        while(!queue.isEmpty()) {
+            int temp = queue.poll();
+            for(int i: rooms.get(temp)) {
+                if(visited[i] == false) {
+                    queue.add(i);
+                    visited[i] = true;
+                }
+            }
+        }
+
+        for(int i = 1; i < visited.length; i++) {
+            if(visited[i] == false) return false;
+        }
+        return true;
+    }
+
+}
