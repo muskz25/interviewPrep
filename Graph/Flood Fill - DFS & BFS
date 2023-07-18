@@ -1,0 +1,73 @@
+class pair{
+    int row;
+    int col;
+    public pair(int row, int col){
+        this.row = row;
+        this.col = col;
+    }
+}
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        if(image[sr][sc]==color) return image;
+         int n = image.length;
+         int m = image[0].length;
+        Queue<pair> q = new LinkedList<>();
+        boolean vis[][] = new boolean[n][m];
+        int startingColor=image[sr][sc];
+        image[sr][sc]=color; 
+        q.add(new pair(sr,sc));
+        vis[sr][sc]=true;
+        int dir[][] = {{0,-1},{-1,0},{1,0},{0,1}};
+        while(!q.isEmpty()){
+            int r=q.peek().row;
+            int c=q.peek().col;
+            q.remove();
+            for(int k=0;k<4;k++){
+              int nrow= r + dir[k][0];
+              int ncol = c + dir[k][1];
+
+              if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && image[nrow][ncol]==startingColor && vis[nrow][ncol]==false){
+                  System.out.println("Hey"+nrow+ncol);
+                  vis[nrow][ncol]=true;
+                  q.add(new pair(nrow,ncol));
+                  image[nrow][ncol]=color;          
+              }
+            }
+        }
+
+        return image;
+
+    }
+}
+
+
+
+
+
+
+#DFS---------------
+
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+       int n = image.length;
+       int m=image[0].length;
+       if(image[sr][sc]==color) return image;
+       int startColor = image[sr][sc];
+
+       dfs(sr,sc,image,startColor,n,m,color);
+       return image;
+    }
+
+    public void dfs(int sr,int sc,int [][] image,int startColor,int n,int m,int color){
+
+        if(sr<0 || sr>=n || sc<0 || sc>=m || image[sr][sc]!=startColor)
+        return;
+
+        image[sr][sc]=color;
+        dfs(sr+1,sc,image,startColor,n,m,color);
+        dfs(sr-1,sc,image,startColor,n,m,color);
+        dfs(sr,sc+1,image,startColor,n,m,color);
+        dfs(sr,sc-1,image,startColor,n,m,color);     
+
+    }
+}
